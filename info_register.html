@@ -1,0 +1,87 @@
+
+<!--代码生成模板开始-->
+<!DOCTYPE html >
+<html >
+<head>
+    <meta charset="utf-8" />
+    <title>信息登记表</title>
+    <style type="text/css">
+        body{
+            width:800px;margin:5px auto;font-family:"SimSun";
+        }
+        h2{
+            text-align:center;
+        }
+        .info-table{
+            border-collapse:collapse;width:800px;
+        }
+        td{
+            border:1px solid silver;
+        }
+        .info-opt{
+            color:silver;
+        }
+        .info-opt-title{
+            width:150px;
+        }
+        .submit{
+            float:right;
+        }
+        .dialog-message{
+            border:1px solid orange;height:25px;background-color:#e0e0e0;width:400px;z-index: 12;
+            top:50px;position: absolute;
+        }
+        .copy-right{
+            color:silver;
+        }
+        strong{
+            color:red;
+        }
+    </style>
+    <script type="text/javascript" src="./javascript/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".submit").click(function(){
+                if(window.confirm("确定提交信息吗?")){
+                    var info = new Array();
+                    $(".info-opt").each(function(){
+                        info.push($(this).text());
+                    });
+                    $.get('./info_process.php',{message:info},function(data){
+                        if(data=="OK"){
+                            dialog("信息提交成功！");
+                        }else{
+                            dialog("信息提交失败！");
+                        }
+                    });
+                }else{
+                    dialog("信息提交失败！");
+                }
+            });
+            function dialog(message){
+                $(".status").html(message);
+                $(".status").show();
+                $(".status").addClass("dialog-message");
+                $(".status").hide(5000);
+            }
+        });
+    </script>
+<body>
+<h2>信息登记表</h2><br/>
+<table class="info-table">
+    <thead>
+    <span><strong>注明：</strong>此处填写通知信息</span>
+    </thead>
+    <tbody>
+    <tr><td class="info-opt-title">字段名</td><td><div class="info-opt" contenteditable="true">默认值</div></td></tr>
+    </tbody>
+</table><br/>
+<button class="submit">提交</button><br/><br/>
+<span class="status"></span><br/><br/>
+<hr/>
+<span class="copy-right">Copyright &copy 2015 Xing Tingyang</span>
+</body>
+</html>
+<!--代码生成模板结束-->
+
+

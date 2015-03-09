@@ -1,0 +1,101 @@
+<!DOCTYPE html >
+<html >
+<head>
+<meta charset="utf-8" />
+<title>表格字段信息配置</title>
+<style type="text/css"> 
+body{
+    width:800px;margin:5px auto; text-align: left;font-family: "SimSun"; }
+
+.key-value{
+    color:silver;  }
+
+table{
+    border-collapse: collapse;border:1px solid silver; width:100%; }
+
+td{
+    border:1px solid silver;  }
+h2{
+    text-align: center;
+}
+.copy-right{
+    color:silver;
+}
+.add-button{
+    float:left;
+}
+.submit-button{
+    float:right;line-height: 16px;
+}
+.dialog-message{
+    border:1px solid orange;height:25px;background-color:#e0e0e0;width:400px;z-index: 12;
+    top:50px;position: absolute;
+}
+.field-name{
+    width:150px;
+}
+</style>
+<script type="text/javascript" src="../javascript/jquery-1.9.1.js"></script>
+<script>
+function addRow(){
+    var oTable = document.getElementById("oTable");
+    var tBodies = oTable.tBodies;
+    var tbody = tBodies[0];
+    var tr = tbody.insertRow(tbody.rows.length);
+    var td_1 = tr.insertCell(0);
+    td_1.innerHTML = "<div contenteditable='true' class='get-value field-name'>字段名</div>";
+    var td_2 = tr.insertCell(1);
+    td_2.innerHTML = "<div contenteditable='true' class='key-value get-value'>默认值</div>";
+    }
+
+</script>
+<script type="text/javascript">
+$(function(){
+    $('.submit-button').click(function(){
+        var fields = new Array();
+        $('.get-value').each(function(){
+            fields.push($(this).text());
+        });
+        $.get('./config_creator.php',{message:fields},function(data){
+            if(data=="OK"){
+                $.get('./info_register_creator.php',{},function(data){
+                    dialog('在线表单生成成功！将为你跳转到表单填写主页...');
+                    setTimeout('window.location.href = "../info_register.html"',5000);
+                });
+            }else{
+                dialog('表单配置失败');
+            };
+        });
+    });
+    function dialog(message){
+        $(".status").html(message);
+        $(".status").show();
+        $(".status").addClass("dialog-message");
+        $(".status").hide(5000);
+    }
+});
+</script>
+</head>
+<body>
+<h2>表单配置</h2><br/><br/>
+<table id="oTable" width="100%">
+<tbody>
+<tr><td class="field-name"><strong>字段名称</strong></td><td><strong>默认值</strong></td></tr>
+<tr>
+<td><div contenteditable="true"  class='get-value field-name'>关键字序号(必填)</div></td>
+<td><div contenteditable="true" class="key-value get-value">0</div></td>
+</tr>
+<tr>
+    <td><div contenteditable="true"  class='get-value field-name'>通知信息(必填）</div></td>
+    <td><div contenteditable="true" class="key-value get-value">此处填写通知信息</div></td>
+</tr>
+</tbody>
+</table><br/>
+<input type="button" class="add-button" onClick="addRow();" value="+"/>
+<input type="button" class="submit-button" value="提交"/>
+<br/><br/>
+<hr/>
+<span class="copy-right">Copyright &copy 2015 Xing Tingyang</span>
+<span class="status"></span>
+</body>
+</html>
