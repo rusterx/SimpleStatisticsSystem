@@ -63,6 +63,7 @@ ob_start();
                     dialog("信息提交失败！");
                 }
             });
+            //show dialog message
             function dialog(message){
                 $(".status").html(message);
                 $(".status").show();
